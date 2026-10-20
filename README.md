@@ -29,7 +29,7 @@ systemctl reboot
 Once rebased, updates are handled with `bootc`:
 
 ```sh
-sudo bootc upgrade
+bootc upgrade
 ```
 
 Reboot to apply the new image:
