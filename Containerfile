@@ -1,6 +1,9 @@
 FROM quay.io/fedora-ostree-desktops/silverblue:45@sha256:730782143e1094ea5893afa48688af2345cfb214c48c6faa724dc4cae8747745
 
-RUN <<EOF
+RUN --mount=type=tmpfs,target=/run \
+    --mount=type=tmpfs,target=/tmp \
+    --mount=type=tmpfs,target=/var \
+    <<EOF
 set -xeuo pipefail
 
 dnf -y install \
@@ -20,13 +23,8 @@ dnf -y swap mesa-vulkan-drivers{,-freeworld}.i686
 
 dnf -y remove firefox
 dnf -y swap ptyxis gnome-console
-dnf -y remove rpmfusion-{free,nonfree}-release
 
 dnf clean all
-
-rm /run/dnf /run/setrans /tmp/* /var/* -rf
-mkdir /var/tmp
-chmod 1777 /var/tmp
 EOF
 
 LABEL containers.bootc 1
