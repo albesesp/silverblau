@@ -2,12 +2,10 @@ name: Dependabot auto-merge
 
 on: pull_request
 
-permissions:
-  contents: write
-#  pull-requests: write
-
 jobs:
   dependabot:
+    permissions:
+      contents: write
     if: github.event.pull_request.user.login == 'dependabot[bot]'
     runs-on: ubuntu-latest
 
