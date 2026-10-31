@@ -3,12 +3,17 @@ name: Build and push
 on:
   push:
     paths: Containerfile
+  workflow_dispatch:
 
 jobs:
   build-push:
     permissions:
       packages: write
-    runs-on: ubuntu-26.04
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: ${{ github.event.repository.name }}
+      IMAGE_TAGS: latest ${{ github.sha }}
+      IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
     timeout-minutes: 20
 
     steps:
@@ -19,7 +24,8 @@ jobs:
         id: build
         uses: redhat-actions/buildah-build@v3
         with:
-          image: ${{ github.event.repository.name }}
+          image: ${{ env.IMAGE_NAME }}
+          tags: ${{ env.IMAGE_TAGS }}
           oci: true
           containerfiles: ./Containerfile
 
@@ -27,6 +33,10 @@ jobs:
         uses: redhat-actions/push-to-registry@v3
         with:
           image: ${{ steps.build.outputs.image }}
-          registry: ghcr.io/${{ github.repository_owner }}
-          username: ${{ github.actor }}
-          password: ${{ github.token }}
+          tags: ${{ steps.build.outputs.tags }}
+          registry: ${{ env.IMAGE_REGISTRY }}
+          username: ${{ env.REGISTRY_USER }}
+          password: ${{ env.REGISTRY_PASSWORD }}
+        env:
+          REGISTRY_USER: ${{ github.actor }}
+          REGISTRY_PASSWORD: ${{ github.token }}
