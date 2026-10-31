@@ -10,10 +10,6 @@ jobs:
     permissions:
       packages: write
     runs-on: ubuntu-latest
-    env:
-      IMAGE_NAME: ${{ github.event.repository.name }}
-      IMAGE_TAGS: latest ${{ github.sha }}
-      IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
     timeout-minutes: 20
 
     steps:
@@ -28,6 +24,9 @@ jobs:
           tags: ${{ env.IMAGE_TAGS }}
           oci: true
           containerfiles: ./Containerfile
+        env:
+          IMAGE_NAME: ${{ github.event.repository.name }}
+          IMAGE_TAGS: latest ${{ github.sha }}
 
       - name: Push to container registry
         uses: redhat-actions/push-to-registry@v3
@@ -38,5 +37,6 @@ jobs:
           username: ${{ env.REGISTRY_USER }}
           password: ${{ env.REGISTRY_PASSWORD }}
         env:
+          IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
           REGISTRY_USER: ${{ github.actor }}
           REGISTRY_PASSWORD: ${{ github.token }}
