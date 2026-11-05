@@ -4,9 +4,8 @@ A custom bootc image based on Fedora Silverblue.
 
 ## What's included
 
-- Steam
-- GStreamer bad/ugly plugins
-- VA-API & Vulkan Mesa freeworld drivers (including i686)
+- Full FFmpeg
+- VA-API & Vulkan Mesa freeworld drivers
 - Firefox removed
 - Ptyxis swapped for Console
 
