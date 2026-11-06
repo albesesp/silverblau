@@ -15,7 +15,8 @@ dnf -y install mesa-va-drivers-freeworld.{i686,x86_64}
 dnf -y swap mesa-vulkan-drivers{,-freeworld}
 dnf -y swap mesa-vulkan-drivers{,-freeworld}.i686
 dnf -y swap ffmpeg-free ffmpeg --allowerasing
-dnf -y swap firefox chromium
+dnf -y remove firefox
+dnf -y install chromium
 dnf -y swap ptyxis gnome-console
 
 dnf clean all
