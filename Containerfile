@@ -6,18 +6,9 @@ RUN --mount=type=tmpfs,target=/run \
     <<EOF
 set -xeuo pipefail
 
-dnf -y install \
-    https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
-    https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
-
-dnf -y swap ffmpeg-free ffmpeg --allowerasing
-
-dnf -y install mesa-va-drivers-freeworld
-dnf -y swap mesa-vulkan-drivers{,-freeworld}
-
+dnf -y install steam-devices
 dnf -y remove firefox
 dnf -y swap ptyxis gnome-console
-
 dnf clean all
 EOF
 
